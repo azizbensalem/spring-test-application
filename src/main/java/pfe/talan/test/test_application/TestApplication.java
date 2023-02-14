@@ -1,7 +1,11 @@
 package pfe.talan.test.test_application;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import pfe.talan.test.test_application.configurations.FileGeneratorProperties;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +18,9 @@ public class TestApplication {
 	private static final String FILE_SUFFIX = ".txt";
 	private static final String DIR_NAME = "Generated_Files";
 
+	@Autowired
+	private static FileGeneratorProperties properties;
+
 	public static void generateFiles(int numFiles, long fileSize) {
 		Random rand = new Random();
 
@@ -21,8 +28,6 @@ public class TestApplication {
 			File directory = new File(String.valueOf(DIR_NAME));
 			if (! directory.exists()){
 				directory.mkdir();
-				// If you require it to make the entire directory path including parents,
-				// use directory.mkdirs(); here instead.
 			}
 			File file = new File( directory+"/"+FILE_PREFIX + i + FILE_SUFFIX);
 			try (FileOutputStream fos = new FileOutputStream(file)) {
@@ -41,8 +46,12 @@ public class TestApplication {
 			}
 		}
 	}
+
+
+
 	public static void main(String[] args) {
+
 		SpringApplication.run(TestApplication.class, args);
-		generateFiles(10, 1024*1024);
+		generateFiles(properties.getNumFiles(), properties.getFileSize());
 	}
 }
