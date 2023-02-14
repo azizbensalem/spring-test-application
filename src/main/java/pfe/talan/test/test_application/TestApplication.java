@@ -17,7 +17,7 @@ public class TestApplication {
 		Random rand = new Random();
 
 		for (int i = 1; i <= numFiles; i++) {
-			File file = new File(FILE_PREFIX + i + FILE_SUFFIX);
+			File file = new File( "./gen_files/"+FILE_PREFIX + i + FILE_SUFFIX);
 			try (FileOutputStream fos = new FileOutputStream(file)) {
 				byte[] buffer = new byte[BUFFER_SIZE];
 				long bytesWritten = 0;
