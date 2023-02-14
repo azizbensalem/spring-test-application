@@ -12,12 +12,19 @@ public class TestApplication {
 	private static final int BUFFER_SIZE = 1024;
 	private static final String FILE_PREFIX = "generated_file_";
 	private static final String FILE_SUFFIX = ".txt";
+	private static final String DIR_NAME = "Generated_Files";
 
 	public static void generateFiles(int numFiles, long fileSize) {
 		Random rand = new Random();
 
 		for (int i = 1; i <= numFiles; i++) {
-			File file = new File( "./gen_files/"+FILE_PREFIX + i + FILE_SUFFIX);
+			File directory = new File(String.valueOf(DIR_NAME));
+			if (! directory.exists()){
+				directory.mkdir();
+				// If you require it to make the entire directory path including parents,
+				// use directory.mkdirs(); here instead.
+			}
+			File file = new File( directory+"/"+FILE_PREFIX + i + FILE_SUFFIX);
 			try (FileOutputStream fos = new FileOutputStream(file)) {
 				byte[] buffer = new byte[BUFFER_SIZE];
 				long bytesWritten = 0;
