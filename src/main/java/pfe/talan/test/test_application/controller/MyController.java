@@ -24,7 +24,7 @@ public class MyController {
     public String generatingFiles(){
         int n= fileGenConf.getNumberOfFiles();
         long m = fileGenConf.getSizeOfFiles();
-        fileGenService.generateFiles(n,m);
-        return ("Generating "+n +" files of size "+m);
+        return ("Generating "+n +" files of size "+m+"\n <br><br><hr>"+fileGenService.returnStringWithNewline(fileGenService.generateFiles(n,m)));
+
     }
 }

@@ -9,16 +9,15 @@ import java.util.Random;
 @Service
 public class FileGenService {
 
-    public void generateFiles(int numFiles, long fileSize) {
+    public String[] generateFiles(int numFiles, long fileSize) {
         Random rand = new Random();
-
-        for (int i = 1; i <= numFiles; i++) {
+        String[] tableau=new String[numFiles];
+        for (int i = 0; i < numFiles; i++) {
             File directory = new File(String.valueOf(MyEnum.DIR_NAME));
             if (! directory.exists()){
                 directory.mkdir();
-
             }
-            File file = new File( directory+"/"+MyEnum.FILE_PREFIX + i + MyEnum.FILE_SUFFIX);
+            File file = new File( directory+"/"+MyEnum.FILE_PREFIX +(i+1) + MyEnum.FILE_SUFFIX);
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 byte[] buffer = new byte[MyEnum.BUFFER_SIZE];
                 long bytesWritten = 0;
@@ -29,10 +28,23 @@ public class FileGenService {
                     fos.write(buffer, 0, bytesToWrite);
                     bytesWritten += bytesToWrite;
                 }
-                System.out.println("Generated file " + file.getName() + " with size " + file.length() + " bytes");
+                tableau[i]="Generated file " + file.getName() + " with size " + file.length() + " bytes\n";
+                //System.out.println("Generated file " + file.getName() + " with size " + file.length() + " bytes");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        return tableau ;
+    }
+
+    public String returnStringWithNewline(String[] input) {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < input.length; i++) {
+            output.append(input[i]);
+            if (i != input.length - 1) {
+                output.append("\n <br>");
+            }
+        }
+        return output.toString();
     }
 }
