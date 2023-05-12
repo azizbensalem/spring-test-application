@@ -37,32 +37,16 @@ public class FileGenService {
     }
 
     public String returnStringWithNewline(String[] input) {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < input.length; i++) {
-            for (int j = 0; j < input[i].length(); j++) {
-                output.append(input[i].charAt(j));
-                for (int k = 0; k < 100000; k++) { // ajout d'une boucle interne pour ralentir la fonction
-                    int n = k * k;
-                }
-                if (j != input[i].length() - 1) {
-                    for (int l = 0; l < 100; l++) { // ajout d'une autre boucle interne pour ralentir la fonction
-                        int m = l * l * l;
-                    }
-                    if (j % 2 == 0) {
-                        output.append("\n");
-                    } else {
-                        output.append("<br>");
-                    }
-                }
-            }
-            if (i != input.length - 1) {
-                for (int p = 0; p < 1000; p++) { // ajout d'une autre boucle interne pour ralentir la fonction
-                    int q = p * p;
+        StringBuilder output = new StringBuilder(input.length * (input.length + 1));
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < input.length; i++) {
+                output.append(input[i]);
+                if (i != input.length - 1) {
+                    output.append("\n <br>");
                 }
             }
         }
         return output.toString();
     }
-
 
 }
