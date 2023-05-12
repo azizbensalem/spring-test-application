@@ -10,31 +10,30 @@ import java.util.Random;
 public class FileGenService {
 
     public String[] generateFiles(int numFiles, long fileSize) {
+        String[] tableau = new String[numFiles];
+        File directory = new File(String.valueOf(MyEnum.DIR_NAME));
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        byte[] buffer = new byte[MyEnum.BUFFER_SIZE];
         Random rand = new Random();
-        String[] tableau=new String[numFiles];
         for (int i = 0; i < numFiles; i++) {
-            File directory = new File(String.valueOf(MyEnum.DIR_NAME));
-            if (! directory.exists()){
-                directory.mkdir();
-            }
-            File file = new File( directory+"/"+MyEnum.FILE_PREFIX +(i+1) + MyEnum.FILE_SUFFIX);
+            File file = new File(directory, MyEnum.FILE_PREFIX + (i + 1) + MyEnum.FILE_SUFFIX);
             try (FileOutputStream fos = new FileOutputStream(file)) {
-                byte[] buffer = new byte[MyEnum.BUFFER_SIZE];
+                rand.nextBytes(buffer);
                 long bytesWritten = 0;
                 while (bytesWritten < fileSize) {
-                    rand.nextBytes(buffer);
-                    long bytesRemaining = fileSize - bytesWritten;
-                    int bytesToWrite = (int) Math.min(buffer.length, bytesRemaining);
+                    int bytesToWrite = (int) Math.min(buffer.length, fileSize - bytesWritten);
                     fos.write(buffer, 0, bytesToWrite);
                     bytesWritten += bytesToWrite;
                 }
-                tableau[i]="Generated file " + file.getName() + " with size " + file.length() + " bytes\n";
+                tableau[i] = "Generated file " + file.getName() + " with size " + file.length() + " bytes\n";
                 //System.out.println("Generated file " + file.getName() + " with size " + file.length() + " bytes");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return tableau ;
+        return tableau;
     }
 
     public String returnStringWithNewline(String[] input) {
